@@ -5,7 +5,9 @@ import {
   faBook,
   faBurger,
   faRectangleList,
+  faShapes,
 } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 interface SidebarNavProps {
   onClose: () => void;
@@ -27,15 +29,23 @@ export default function SidebarNav({
           <h1 className="text-2xl text-center font-bold">Deli Burger</h1>
         </article>
         <ul className="mt-8 text-lg">
-          <li className="flex items-center px-3 py-4 hover:bg-red-600 cursor-pointer">
-            <FontAwesomeIcon icon={faBurger} />
-            <p className="ml-3">Order</p>
+          <Link href="/">
+            <li className="flex items-center px-3 py-4 hover:bg-red-600 cursor-pointer transition-colors">
+              <FontAwesomeIcon icon={faBurger} />
+              <p className="ml-3">Order</p>
+            </li>
+          </Link>
+          <Link href="/menu">
+            <li className="flex items-center px-3 py-4 hover:bg-red-600 cursor-pointer transition-colors">
+              <FontAwesomeIcon icon={faRectangleList} />
+              <p className="ml-3">Menu</p>
+            </li>
+          </Link>
+          <li className="flex items-center px-3 py-4 hover:bg-red-600 cursor-pointer transition-colors">
+            <FontAwesomeIcon icon={faShapes} />
+            <p className="ml-3">Category</p>
           </li>
-          <li className="flex items-center px-3 py-4 hover:bg-red-600 cursor-pointer">
-            <FontAwesomeIcon icon={faRectangleList} />
-            <p className="ml-3">Menu</p>
-          </li>
-          <li className="flex items-center px-3 py-4 hover:bg-red-600 cursor-pointer">
+          <li className="flex items-center px-3 py-4 hover:bg-red-600 cursor-pointer transition-colors">
             <FontAwesomeIcon icon={faBook} />
             <p className="ml-3">Transaction</p>
           </li>

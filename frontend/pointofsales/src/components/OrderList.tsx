@@ -35,7 +35,7 @@ export default function OrderList() {
                 <FontAwesomeIcon
                   onClick={() => deleteItemToOrder(order)}
                   icon={faTrashCan}
-                  className="text-red-500 hover:text-red-600 cursor-pointer"
+                  className="text-red-500 hover:text-red-600 cursor-pointer transition-colors"
                 />
                 <article className="flex items-center bg-gray-100 rounded-3xl p-2">
                   <FontAwesomeIcon
@@ -55,7 +55,7 @@ export default function OrderList() {
           </li>
         ))
       ) : (
-        <p>No orders yet</p>
+        <p>No items were added</p>
       )}
     </ul>
   );

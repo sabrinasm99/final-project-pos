@@ -4,4 +4,9 @@ export type MenuProps = {
   price: number;
   category: string;
   image: string;
+  stock: number;
+};
+
+export type OrderItemProps = MenuProps & {
+  quantity: number;
 };

@@ -1,15 +1,7 @@
 "use client";
 
+import { OrderItemProps } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
-
-type OrderItemProps = {
-  id: number;
-  name: string;
-  price: number;
-  category: string;
-  image: string;
-  quantity: number;
-};
 
 type InitialStateProps = {
   dataOrder: OrderItemProps[];
@@ -57,8 +49,11 @@ const orderSlice = createSlice({
       const id = action.payload.id;
       state.dataOrder = state.dataOrder.filter((item) => item.id !== id);
     },
+    clear: (state) => {
+      state.dataOrder = [];
+    },
   },
 });
 
-export const { addItem, reduceItem, deleteItem } = orderSlice.actions;
+export const { addItem, reduceItem, deleteItem, clear } = orderSlice.actions;
 export default orderSlice.reducer;
