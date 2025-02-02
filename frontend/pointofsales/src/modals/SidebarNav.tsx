@@ -22,7 +22,7 @@ export default function SidebarNav({
     <>
       <article
         className={`fixed bg-red-500 text-white top-0 left-0 h-full w-60 flex flex-col py-5 z-20
-          transform transition-all duration-300 ease-in-out
+          transform transition-all duration-300 ease-in-out shadow-[5px_0_10px_rgba(0,0,0,0.1)]
           ${showSidebarNav ? "translate-x-0" : "-translate-x-full"}`}
       >
         <article className="border-b-4 border-yellow-300 pb-5">
