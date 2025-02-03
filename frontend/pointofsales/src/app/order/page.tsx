@@ -6,7 +6,7 @@ import { menuList } from "@/data/MenuList";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function Home() {
+export default function OrderPage() {
   return (
     <main className="flex h-full">
       <section className="w-2/3 px-5 pt-5 flex flex-col">
