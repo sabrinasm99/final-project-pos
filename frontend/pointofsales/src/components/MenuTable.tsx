@@ -66,7 +66,7 @@ export default function MenuTable({
                   />
                 </td>
                 <td className="p-4">
-                  <div className="text-gray-500">{item.category}</div>
+                  <div className="text-gray-500">{item.categoryId}</div>
                 </td>
                 <td className="p-4">
                   <div className="text-gray-900">
@@ -80,13 +80,13 @@ export default function MenuTable({
                   <div className="flex justify-end space-x-2">
                     <button
                       onClick={() => handleOpenModalEditMenu(item)}
-                      className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+                      className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
                     >
                       <FontAwesomeIcon icon={faPen} className="h-5 w-5" />
                     </button>
                     <button
                       onClick={() => handleOpenDeleteConfirmation(item)}
-                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                      className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors"
                     >
                       <FontAwesomeIcon icon={faTrashCan} className="h-5 w-5" />
                     </button>
