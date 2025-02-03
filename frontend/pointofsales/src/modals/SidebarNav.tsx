@@ -8,6 +8,7 @@ import {
   faShapes,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface SidebarNavProps {
   onClose: () => void;
@@ -18,6 +19,8 @@ export default function SidebarNav({
   onClose,
   showSidebarNav,
 }: SidebarNavProps) {
+  const pathname = usePathname();
+
   return (
     <>
       <article
@@ -29,26 +32,50 @@ export default function SidebarNav({
           <h1 className="text-2xl text-center font-bold">Deli Burger</h1>
         </article>
         <ul className="mt-8 text-lg">
-          <Link href="/">
-            <li className="flex items-center px-3 py-4 hover:bg-red-600 cursor-pointer transition-colors">
+          <Link href="/order">
+            <li
+              className={`${
+                pathname === "/order" ? "bg-red-600" : "bg-transparent"
+              } font-medium flex items-center px-3 py-4 hover:bg-red-600 cursor-pointer transition-colors`}
+            >
               <FontAwesomeIcon icon={faBurger} />
               <p className="ml-3">Order</p>
             </li>
           </Link>
           <Link href="/menu">
-            <li className="flex items-center px-3 py-4 hover:bg-red-600 cursor-pointer transition-colors">
+            <li
+              className={`${
+                pathname === "/menu" ? "bg-red-600" : "bg-transparent"
+              } font-medium flex items-center px-3 py-4 hover:bg-red-600 cursor-pointer transition-colors`}
+            >
               <FontAwesomeIcon icon={faRectangleList} />
               <p className="ml-3">Menu</p>
             </li>
           </Link>
-          <li className="flex items-center px-3 py-4 hover:bg-red-600 cursor-pointer transition-colors">
-            <FontAwesomeIcon icon={faShapes} />
-            <p className="ml-3">Category</p>
-          </li>
-          <li className="flex items-center px-3 py-4 hover:bg-red-600 cursor-pointer transition-colors">
-            <FontAwesomeIcon icon={faBook} />
-            <p className="ml-3">Transaction</p>
-          </li>
+          <Link href="/category">
+            <li
+              className={`${
+                pathname.match(/\/category\/*/g)
+                  ? "bg-red-600"
+                  : "bg-transparent"
+              } font-medium flex items-center px-3 py-4 hover:bg-red-600 cursor-pointer transition-colors`}
+            >
+              <FontAwesomeIcon icon={faShapes} />
+              <p className="ml-3">Category</p>
+            </li>
+          </Link>
+          <Link href="/transaction">
+            <li
+              className={`${
+                pathname.match(/\/transaction\/*/g)
+                  ? "bg-red-600"
+                  : "bg-transparent"
+              } font-medium flex items-center px-3 py-4 hover:bg-red-600 cursor-pointer transition-colors`}
+            >
+              <FontAwesomeIcon icon={faBook} />
+              <p className="ml-3">Transaction</p>
+            </li>
+          </Link>
         </ul>
       </article>
       <div
