@@ -25,8 +25,8 @@ public class CategoryController {
   }
 
   @GetMapping("/{id}")
-  public Category findCategoryById(@PathVariable Long id) {
-    return categoryService.findById(id);
+  public CategoryResponse findCategoryById(@PathVariable Long id) {
+    return categoryService.findWithRelatedProductsById(id);
   }
 
   @PostMapping
