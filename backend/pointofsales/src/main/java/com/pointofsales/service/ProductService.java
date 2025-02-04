@@ -22,7 +22,7 @@ public class ProductService {
   private CategoryRepository categoryRepository;
 
   public List<Product> findAll() {
-    return productRepository.findAll();
+    return productRepository.findAllProductsAscSort();
   }
 
   public Product findById(Long id) {
