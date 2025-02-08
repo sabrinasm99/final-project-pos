@@ -1,8 +1,5 @@
-import { MenuProps } from "@/types";
-import ObjectID from "bson-objectid";
-
 type OrderItemProps = {
-  item: MenuProps;
+  item: any;
   quantity: number;
 };
 

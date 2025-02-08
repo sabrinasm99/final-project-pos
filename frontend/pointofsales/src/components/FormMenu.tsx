@@ -1,16 +1,29 @@
 "use client";
 
-import { MenuProps } from "@/types";
+import { CategoryDataProps, MenuDataProps } from "@/types";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useListCategories } from "@/api/categories/useListCategories";
+import { addProduct } from "@/api/products/addProduct";
+import { updateProduct } from "@/api/products/updateProduct";
+import { KeyedMutator } from "swr";
 
 type FormMenuProps = {
   title: string;
-  selectedMenu: MenuProps | null;
+  selectedMenu: MenuDataProps | null;
+  handleCloseModal: () => void;
+  mutateListProducts: KeyedMutator<MenuDataProps[]>;
 };
 
-export default function FormMenu({ title, selectedMenu }: FormMenuProps) {
+export default function FormMenu({
+  title,
+  selectedMenu,
+  handleCloseModal,
+  mutateListProducts,
+}: FormMenuProps) {
+  const { categories } = useListCategories();
+
   const schema = yup.object().shape({
     name: yup.string().required("Name is required"),
     price: yup
@@ -50,15 +63,25 @@ export default function FormMenu({ title, selectedMenu }: FormMenuProps) {
     defaultValues: {
       name: selectedMenu ? selectedMenu.name : "",
       price: selectedMenu ? selectedMenu.price : "",
-      categoryId: selectedMenu ? selectedMenu.categoryId : "",
+      categoryId: selectedMenu ? selectedMenu.category.id : "",
       stock: selectedMenu ? selectedMenu.stock : "",
       image: selectedMenu ? selectedMenu.image : "",
     },
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: MenuData) => {
-    console.log(data);
+  const onSubmit = async (data: MenuData) => {
+    try {
+      if (title === "Add") {
+        await addProduct(data);
+      } else {
+        await updateProduct(selectedMenu?.id, data);
+      }
+      mutateListProducts();
+    } catch (err) {
+      throw err;
+    }
+    handleCloseModal();
   };
 
   return (
@@ -89,9 +112,13 @@ export default function FormMenu({ title, selectedMenu }: FormMenuProps) {
           {...register("categoryId")}
           className="w-full focus:outline-none border border-gray-200 rounded p-1 focus:ring-2 focus:ring-blue-500"
         >
-          <option value="Burger">Burger</option>
-          <option value="Beverage">Beverage</option>
-          <option value="Dessert">Dessert</option>
+          {title === "Add" && <option value=""></option>}
+          {categories &&
+            categories.map((category: CategoryDataProps) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
         </select>
         <p className="text-sm italic text-red-600">
           {errors.categoryId?.message}

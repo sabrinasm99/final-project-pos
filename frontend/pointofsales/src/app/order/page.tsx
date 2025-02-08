@@ -1,3 +1,4 @@
+import ListMenu from "@/components/ListMenu";
 import MenuCard from "@/components/MenuCard";
 import NavigationButton from "@/components/NavigationButton";
 import OrderList from "@/components/OrderList";
@@ -59,11 +60,7 @@ export default function OrderPage() {
             </article>
           </article>
         </article>
-        <ul className="grid grid-cols-4 gap-3 overflow-y-auto pr-1">
-          {menuList.map((item) => (
-            <MenuCard key={item.id} item={item} />
-          ))}
-        </ul>
+        <ListMenu />
       </section>
       <section className="w-1/3 bg-white pt-5 flex flex-col">
         <h2 className="text-xl font-medium mx-5">Order List</h2>

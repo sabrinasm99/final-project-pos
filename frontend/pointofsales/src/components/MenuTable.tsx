@@ -1,18 +1,25 @@
 "use client";
 
+import { useListProducts } from "@/api/products/useListProducts";
 import { menuList } from "@/data/MenuList";
 import ModalDeleteConfirmation from "@/modals/ModalDeleteConfirmation";
-import { MenuProps } from "@/types";
+import { MenuDataProps } from "@/types";
 import { currencyFormatter } from "@/utils/formatter";
 import { faPen, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
+import { KeyedMutator } from "swr";
 
 type MenuTableProps = {
   toggleModalMenu: () => void;
   setModalTitle: React.Dispatch<string>;
-  selectedMenu: MenuProps | null;
-  setSelectedMenu: React.Dispatch<MenuProps | null>;
+  selectedMenu: MenuDataProps | null;
+  setSelectedMenu: React.Dispatch<MenuDataProps | null>;
+  mutateListProducts: KeyedMutator<MenuDataProps[]>;
+  products: MenuDataProps[];
+  isLoading: boolean;
+  isError: Error | null;
 };
 
 export default function MenuTable({
@@ -20,19 +27,39 @@ export default function MenuTable({
   setModalTitle,
   selectedMenu,
   setSelectedMenu,
+  mutateListProducts,
+  products,
+  isLoading,
+  isError,
 }: MenuTableProps) {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
-  const handleOpenDeleteConfirmation = (menu: MenuProps) => {
+  const handleOpenDeleteConfirmation = (menu: MenuDataProps) => {
     setSelectedMenu(menu);
     setShowDeleteConfirmation(!showDeleteConfirmation);
   };
 
-  const handleOpenModalEditMenu = (menu: MenuProps) => {
+  const handleOpenModalEditMenu = (menu: MenuDataProps) => {
     setSelectedMenu(menu);
     setModalTitle("Edit");
     toggleModalMenu();
   };
+
+  if (isLoading) {
+    return (
+      <article className="flex justify-center">
+        <ClipLoader size={50} />
+      </article>
+    );
+  }
+
+  if (isError) {
+    return (
+      <article className="flex justify-center">
+        <p className="text-gray-700">An error has been occured</p>
+      </article>
+    );
+  }
 
   return (
     <>
@@ -50,7 +77,7 @@ export default function MenuTable({
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {menuList.map((item, index) => (
+            {products.map((item: MenuDataProps, index: number) => (
               <tr key={item.id} className="hover:bg-gray-50">
                 <td className="p-4">
                   <div className="font-medium text-gray-900">{index + 1}</div>
@@ -66,7 +93,7 @@ export default function MenuTable({
                   />
                 </td>
                 <td className="p-4">
-                  <div className="text-gray-500">{item.categoryId}</div>
+                  <div className="text-gray-500">{item.category.name}</div>
                 </td>
                 <td className="p-4">
                   <div className="text-gray-900">
@@ -102,6 +129,7 @@ export default function MenuTable({
           menu={selectedMenu}
           setSelectedMenu={setSelectedMenu}
           setShowDeleteConfirmation={setShowDeleteConfirmation}
+          mutateListProducts={mutateListProducts}
         />
       )}
     </>

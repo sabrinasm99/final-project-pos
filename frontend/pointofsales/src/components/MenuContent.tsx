@@ -5,12 +5,15 @@ import MenuTable from "./MenuTable";
 import ModalFormMenu from "@/modals/ModalFormMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { MenuProps } from "@/types";
+import { MenuDataProps } from "@/types";
+import { useListProducts } from "@/api/products/useListProducts";
 
 export default function MenuContent() {
   const [showModalMenu, setshowModalMenu] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
-  const [selectedMenu, setSelectedMenu] = useState<MenuProps | null>(null);
+  const [selectedMenu, setSelectedMenu] = useState<MenuDataProps | null>(null);
+  const { products, isLoading, isError, mutateListProducts } =
+    useListProducts();
 
   const toggleModalMenu = () => {
     setshowModalMenu(!showModalMenu);
@@ -37,6 +40,10 @@ export default function MenuContent() {
         setModalTitle={setModalTitle}
         selectedMenu={selectedMenu}
         setSelectedMenu={setSelectedMenu}
+        products={products}
+        isLoading={isLoading}
+        isError={isError}
+        mutateListProducts={mutateListProducts}
       />
       {showModalMenu && (
         <ModalFormMenu
@@ -44,6 +51,7 @@ export default function MenuContent() {
           title={modalTitle}
           selectedMenu={selectedMenu}
           setSelectedMenu={setSelectedMenu}
+          mutateListProducts={mutateListProducts}
         />
       )}
     </>

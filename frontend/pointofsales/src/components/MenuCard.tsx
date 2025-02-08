@@ -1,10 +1,10 @@
 "use client";
 
-import { MenuProps } from "@/types";
+import { MenuDataProps } from "@/types";
 import { currencyFormatter } from "@/utils/formatter";
 import { useOrderActions } from "@/utils/orderActions";
 
-export default function MenuCard({ item }: { item: MenuProps }) {
+export default function MenuCard({ item }: { item: MenuDataProps }) {
   const { addItemToOrder } = useOrderActions();
 
   return (
@@ -20,7 +20,7 @@ export default function MenuCard({ item }: { item: MenuProps }) {
       <p className="font-medium">{item.name}</p>
       <article className="flex justify-between mt-2">
         <article className="bg-orange-100 text-orange-500 rounded-2xl py-1 px-2 text-sm font-medium">
-          <p>{item.category}</p>
+          <p>{item.category.name}</p>
         </article>
         <p className="text-lg font-medium">{currencyFormatter(item.price)}</p>
       </article>

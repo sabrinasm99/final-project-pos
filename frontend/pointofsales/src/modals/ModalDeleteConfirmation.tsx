@@ -1,22 +1,36 @@
-import { MenuProps } from "@/types";
+import { deleteProduct } from "@/api/products/deleteProduct";
+import { MenuDataProps } from "@/types";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import { KeyedMutator } from "swr";
 
 type ModalDeleteConfirmationProps = {
-  menu: MenuProps | null;
-  setSelectedMenu: React.Dispatch<MenuProps | null>;
+  menu: MenuDataProps | null;
+  setSelectedMenu: React.Dispatch<MenuDataProps | null>;
   setShowDeleteConfirmation: React.Dispatch<boolean>;
+  mutateListProducts: KeyedMutator<MenuDataProps[]>;
 };
 
 export default function ModalDeleteConfirmation({
   menu,
   setSelectedMenu,
   setShowDeleteConfirmation,
+  mutateListProducts,
 }: ModalDeleteConfirmationProps) {
   const handleCloseDeleteConfirmation = () => {
     setSelectedMenu(null);
     setShowDeleteConfirmation(false);
+  };
+
+  const handleDeleteProduct = async (id: any) => {
+    try {
+      await deleteProduct(id);
+      mutateListProducts();
+    } catch (error) {
+      throw error;
+    }
+    handleCloseDeleteConfirmation();
   };
 
   return (
@@ -47,7 +61,10 @@ export default function ModalDeleteConfirmation({
           >
             Cancel
           </button>
-          <button className="bg-red-500 hover:bg-red-600 text-white rounded-md py-1 px-2 transition-colors">
+          <button
+            onClick={() => handleDeleteProduct(menu?.id)}
+            className="bg-red-500 hover:bg-red-600 text-white rounded-md py-1 px-2 transition-colors"
+          >
             Delete
           </button>
         </div>
