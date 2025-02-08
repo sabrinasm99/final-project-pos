@@ -1,16 +1,21 @@
-import { categoryList } from "@/data/CategoryList";
 import ModalDeleteCategory from "@/modals/ModalDeleteCategory";
 import { CategoryProps } from "@/types";
 import { faEye, faPen, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
+import { KeyedMutator } from "swr";
 
 type CategoryTableProps = {
   toggleModalCategory: () => void;
   setModalTitle: React.Dispatch<string>;
   selectedCategory: CategoryProps | null;
   setSelectedCategory: React.Dispatch<CategoryProps | null>;
+  categories: CategoryProps[];
+  isError: Error | null;
+  isLoading: boolean;
+  mutateListCategories: KeyedMutator<CategoryProps[]>;
 };
 
 export default function CategoryTable({
@@ -18,6 +23,10 @@ export default function CategoryTable({
   setModalTitle,
   selectedCategory,
   setSelectedCategory,
+  categories,
+  isLoading,
+  isError,
+  mutateListCategories,
 }: CategoryTableProps) {
   const router = useRouter();
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -33,6 +42,22 @@ export default function CategoryTable({
     setShowDeleteConfirmation(!showDeleteConfirmation);
   };
 
+  if (isLoading) {
+    return (
+      <article className="flex justify-center">
+        <ClipLoader size={50} />
+      </article>
+    );
+  }
+
+  if (isError) {
+    return (
+      <article className="flex justify-center">
+        <p className="text-gray-700">An error has been occured</p>
+      </article>
+    );
+  }
+
   return (
     <>
       <article className="bg-white rounded-lg shadow w-4/5 mx-auto overflow-auto my-3">
@@ -47,7 +72,7 @@ export default function CategoryTable({
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {categoryList.map((category, index) => (
+            {categories.map((category: CategoryProps, index: number) => (
               <tr key={category.id} className="hover:bg-gray-50">
                 <td className="p-4">{index + 1}</td>
                 <td className="p-4">{category.id}</td>
@@ -88,6 +113,7 @@ export default function CategoryTable({
           category={selectedCategory}
           setSelectedCategory={setSelectedCategory}
           setShowDeleteConfirmation={setShowDeleteConfirmation}
+          mutateListCategories={mutateListCategories}
         />
       )}
     </>

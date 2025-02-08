@@ -1,6 +1,6 @@
 "use client";
 
-import { categoryList } from "@/data/CategoryList";
+import { useCategory } from "@/api/categories/useCategory";
 import {
   faArrowLeft,
   faCube,
@@ -9,14 +9,28 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams, useRouter } from "next/navigation";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function CategoryDetailsContent() {
   const router = useRouter();
   const { id } = useParams();
+  const { category, isError, isLoading } = useCategory(id);
 
-  const category = categoryList.find((category) => category.id === Number(id));
+  if (isLoading) {
+    return (
+      <article className="flex justify-center">
+        <ClipLoader size={50} />
+      </article>
+    );
+  }
 
-  if (!category) return null;
+  if (isError) {
+    return (
+      <article className="flex justify-center">
+        <p className="text-gray-700">An error has been occured</p>
+      </article>
+    );
+  }
 
   return (
     <article className="w-4/5 mx-auto px-8">
@@ -42,7 +56,7 @@ export default function CategoryDetailsContent() {
             </article>
             <article>
               <h3 className="text-sm font-medium text-gray-500">Category ID</h3>
-              <p className="mt-1 font-semibold text-gray-900">{category.id}</p>
+              <p className="mt-1 font-semibold text-gray-900">{category?.id}</p>
             </article>
           </li>
 
@@ -57,7 +71,7 @@ export default function CategoryDetailsContent() {
                 Category Name
               </h3>
               <p className="mt-1 font-semibold text-gray-900">
-                {category.name}
+                {category?.name}
               </p>
             </article>
           </li>
@@ -73,7 +87,7 @@ export default function CategoryDetailsContent() {
                 Total Related Products
               </h3>
               <p className="mt-1 font-semibold text-gray-900">
-                {category.totalRelatedProducts.toLocaleString()} products
+                {category?.totalRelatedProducts.toLocaleString()} products
               </p>
             </article>
           </li>

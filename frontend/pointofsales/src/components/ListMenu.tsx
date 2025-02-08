@@ -2,7 +2,7 @@
 import ClipLoader from "react-spinners/ClipLoader";
 import MenuCard from "./MenuCard";
 import { useListProducts } from "@/api/products/useListProducts";
-import { MenuDataProps } from "@/types";
+import { MenuProps } from "@/types";
 
 export default function ListMenu() {
   const { products, isLoading, isError } = useListProducts();
@@ -25,7 +25,7 @@ export default function ListMenu() {
 
   return (
     <ul className="grid grid-cols-4 gap-3 overflow-y-auto pr-1">
-      {products.map((item: MenuDataProps) => (
+      {products.map((item: MenuProps) => (
         <MenuCard key={item.id} item={item} />
       ))}
     </ul>

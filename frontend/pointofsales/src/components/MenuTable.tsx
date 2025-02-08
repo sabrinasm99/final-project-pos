@@ -3,7 +3,7 @@
 import { useListProducts } from "@/api/products/useListProducts";
 import { menuList } from "@/data/MenuList";
 import ModalDeleteConfirmation from "@/modals/ModalDeleteConfirmation";
-import { MenuDataProps } from "@/types";
+import { MenuProps } from "@/types";
 import { currencyFormatter } from "@/utils/formatter";
 import { faPen, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,10 +14,10 @@ import { KeyedMutator } from "swr";
 type MenuTableProps = {
   toggleModalMenu: () => void;
   setModalTitle: React.Dispatch<string>;
-  selectedMenu: MenuDataProps | null;
-  setSelectedMenu: React.Dispatch<MenuDataProps | null>;
-  mutateListProducts: KeyedMutator<MenuDataProps[]>;
-  products: MenuDataProps[];
+  selectedMenu: MenuProps | null;
+  setSelectedMenu: React.Dispatch<MenuProps | null>;
+  mutateListProducts: KeyedMutator<MenuProps[]>;
+  products: MenuProps[];
   isLoading: boolean;
   isError: Error | null;
 };
@@ -34,12 +34,12 @@ export default function MenuTable({
 }: MenuTableProps) {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
-  const handleOpenDeleteConfirmation = (menu: MenuDataProps) => {
+  const handleOpenDeleteConfirmation = (menu: MenuProps) => {
     setSelectedMenu(menu);
     setShowDeleteConfirmation(!showDeleteConfirmation);
   };
 
-  const handleOpenModalEditMenu = (menu: MenuDataProps) => {
+  const handleOpenModalEditMenu = (menu: MenuProps) => {
     setSelectedMenu(menu);
     setModalTitle("Edit");
     toggleModalMenu();
@@ -77,7 +77,7 @@ export default function MenuTable({
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {products.map((item: MenuDataProps, index: number) => (
+            {products.map((item: MenuProps, index: number) => (
               <tr key={item.id} className="hover:bg-gray-50">
                 <td className="p-4">
                   <div className="font-medium text-gray-900">{index + 1}</div>

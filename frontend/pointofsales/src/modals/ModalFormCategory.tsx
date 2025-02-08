@@ -3,12 +3,14 @@
 import FormCategory from "@/components/FormCategory";
 import { CategoryProps } from "@/types";
 import React from "react";
+import { KeyedMutator } from "swr";
 
 type ModalFormCategoryProps = {
   toggleModalCategory: () => void;
   title: string;
   selectedCategory: CategoryProps | null;
   setSelectedCategory: React.Dispatch<CategoryProps | null>;
+  mutateListCategories: KeyedMutator<CategoryProps[]>;
 };
 
 export default function ModalFormCategory({
@@ -16,6 +18,7 @@ export default function ModalFormCategory({
   title,
   selectedCategory,
   setSelectedCategory,
+  mutateListCategories,
 }: ModalFormCategoryProps) {
   const handleCloseModal = () => {
     if (title === "Edit") {
@@ -28,7 +31,12 @@ export default function ModalFormCategory({
     <>
       <main className="fixed rounded-md z-20 p-6 bg-white top-50% left-50% -translate-x-50% -translate-y-50% shadow-md w-1/4 max-h-4/5 overflow-y-auto">
         <h2 className="text-2xl font-medium">{title} Category</h2>
-        <FormCategory title={title} selectedCategory={selectedCategory} />
+        <FormCategory
+          title={title}
+          selectedCategory={selectedCategory}
+          handleCloseModal={handleCloseModal}
+          mutateListCategories={mutateListCategories}
+        />
       </main>
       <div
         onClick={handleCloseModal}

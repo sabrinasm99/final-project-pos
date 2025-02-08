@@ -1,6 +1,6 @@
 "use client";
 
-import { CategoryDataProps, MenuDataProps } from "@/types";
+import { CategoryProps, MenuProps } from "@/types";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -11,9 +11,9 @@ import { KeyedMutator } from "swr";
 
 type FormMenuProps = {
   title: string;
-  selectedMenu: MenuDataProps | null;
+  selectedMenu: MenuProps | null;
   handleCloseModal: () => void;
-  mutateListProducts: KeyedMutator<MenuDataProps[]>;
+  mutateListProducts: KeyedMutator<MenuProps[]>;
 };
 
 export default function FormMenu({
@@ -114,7 +114,7 @@ export default function FormMenu({
         >
           {title === "Add" && <option value=""></option>}
           {categories &&
-            categories.map((category: CategoryDataProps) => (
+            categories.map((category: CategoryProps) => (
               <option key={category.id} value={category.id}>
                 {category.name}
               </option>

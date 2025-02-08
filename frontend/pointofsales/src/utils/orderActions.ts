@@ -1,19 +1,19 @@
 import { useAppDispatch } from "@/store/hook";
 import { addItem, deleteItem, reduceItem } from "@/store/slices/orderSlice";
-import { MenuDataProps } from "@/types";
+import { MenuProps } from "@/types";
 
 export const useOrderActions = () => {
   const dispatch = useAppDispatch();
 
-  const addItemToOrder = (menu: MenuDataProps) => {
+  const addItemToOrder = (menu: MenuProps) => {
     dispatch(addItem(menu));
   };
 
-  const reduceItemToOrder = (menu: MenuDataProps) => {
+  const reduceItemToOrder = (menu: MenuProps) => {
     dispatch(reduceItem(menu));
   };
 
-  const deleteItemToOrder = (menu: MenuDataProps) => {
+  const deleteItemToOrder = (menu: MenuProps) => {
     dispatch(deleteItem(menu));
   };
 

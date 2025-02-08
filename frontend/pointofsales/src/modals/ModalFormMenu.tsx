@@ -1,16 +1,16 @@
 "use client";
 
 import FormMenu from "@/components/FormMenu";
-import { MenuDataProps } from "@/types";
+import { MenuProps } from "@/types";
 import React from "react";
 import { KeyedMutator } from "swr";
 
 type ModalFormMenuProps = {
   toggleModalMenu: () => void;
   title: string;
-  selectedMenu: MenuDataProps | null;
-  setSelectedMenu: React.Dispatch<MenuDataProps | null>;
-  mutateListProducts: KeyedMutator<MenuDataProps[]>;
+  selectedMenu: MenuProps | null;
+  setSelectedMenu: React.Dispatch<MenuProps | null>;
+  mutateListProducts: KeyedMutator<MenuProps[]>;
 };
 
 export default function ModalFormMenu({

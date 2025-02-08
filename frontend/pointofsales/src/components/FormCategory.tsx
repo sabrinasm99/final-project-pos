@@ -1,18 +1,25 @@
 "use client";
 
+import { addCategory } from "@/api/categories/addCategory";
+import { updateCategory } from "@/api/categories/updateCategory";
 import { CategoryProps } from "@/types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { KeyedMutator } from "swr";
 import * as yup from "yup";
 
 type FormMenuProps = {
   title: string;
   selectedCategory: CategoryProps | null;
+  handleCloseModal: () => void;
+  mutateListCategories: KeyedMutator<CategoryProps[]>;
 };
 
 export default function FormCategory({
   title,
   selectedCategory,
+  handleCloseModal,
+  mutateListCategories,
 }: FormMenuProps) {
   const schema = yup.object().shape({
     name: yup.string().required("Name is required"),
@@ -31,8 +38,18 @@ export default function FormCategory({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: CategoryData) => {
-    console.log(data);
+  const onSubmit = async (data: CategoryData) => {
+    try {
+      if (title === "Add") {
+        await addCategory(data);
+      } else {
+        await updateCategory(selectedCategory?.id, data);
+      }
+      mutateListCategories();
+    } catch (error) {
+      throw error;
+    }
+    handleCloseModal();
   };
 
   return (

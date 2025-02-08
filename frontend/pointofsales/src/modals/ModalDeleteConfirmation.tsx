@@ -1,15 +1,15 @@
 import { deleteProduct } from "@/api/products/deleteProduct";
-import { MenuDataProps } from "@/types";
+import { MenuProps } from "@/types";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { KeyedMutator } from "swr";
 
 type ModalDeleteConfirmationProps = {
-  menu: MenuDataProps | null;
-  setSelectedMenu: React.Dispatch<MenuDataProps | null>;
+  menu: MenuProps | null;
+  setSelectedMenu: React.Dispatch<MenuProps | null>;
   setShowDeleteConfirmation: React.Dispatch<boolean>;
-  mutateListProducts: KeyedMutator<MenuDataProps[]>;
+  mutateListProducts: KeyedMutator<MenuProps[]>;
 };
 
 export default function ModalDeleteConfirmation({

@@ -1,22 +1,40 @@
+import { deleteCategory } from "@/api/categories/deleteCategory";
 import { CategoryProps } from "@/types";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { toast } from "react-toastify";
 import React from "react";
+import { KeyedMutator } from "swr";
 
 type ModalDeleteCategoryProps = {
   category: CategoryProps | null;
   setSelectedCategory: React.Dispatch<CategoryProps | null>;
   setShowDeleteConfirmation: React.Dispatch<boolean>;
+  mutateListCategories: KeyedMutator<CategoryProps[]>;
 };
 
 export default function ModalDeleteCategory({
   category,
   setSelectedCategory,
   setShowDeleteConfirmation,
+  mutateListCategories,
 }: ModalDeleteCategoryProps) {
   const handleCloseDeleteCategory = () => {
     setSelectedCategory(null);
     setShowDeleteConfirmation(false);
+  };
+
+  const handleDeleteCategory = async (id: any) => {
+    try {
+      await deleteCategory(id);
+      mutateListCategories();
+    } catch (error: any) {
+      if (error.error) {
+        return toast("Category can't be deleted");
+      }
+      throw error;
+    }
+    handleCloseDeleteCategory();
   };
 
   return (
@@ -47,7 +65,10 @@ export default function ModalDeleteCategory({
           >
             Cancel
           </button>
-          <button className="bg-red-500 hover:bg-red-600 text-white rounded-md py-1 px-2 transition-colors">
+          <button
+            onClick={() => handleDeleteCategory(category?.id)}
+            className="bg-red-500 hover:bg-red-600 text-white rounded-md py-1 px-2 transition-colors"
+          >
             Delete
           </button>
         </div>

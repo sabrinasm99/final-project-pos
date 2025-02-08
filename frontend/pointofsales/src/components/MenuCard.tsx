@@ -1,10 +1,10 @@
 "use client";
 
-import { MenuDataProps } from "@/types";
+import { MenuProps } from "@/types";
 import { currencyFormatter } from "@/utils/formatter";
 import { useOrderActions } from "@/utils/orderActions";
 
-export default function MenuCard({ item }: { item: MenuDataProps }) {
+export default function MenuCard({ item }: { item: MenuProps }) {
   const { addItemToOrder } = useOrderActions();
 
   return (
