@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS categories, products, carts, cart_products, transactions;
+DROP TABLE IF EXISTS categories, products, transactions;
 
 CREATE TABLE categories (
   id SERIAL PRIMARY KEY,
@@ -19,29 +19,22 @@ CREATE TABLE products (
   FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
-CREATE TABLE carts (
-  id SERIAL PRIMARY KEY,
+CREATE TABLE transactions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  total_amount DECIMAL(10,2) NOT NULL,
+  total_pay DECIMAL(10,2) NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE cart_products (
-  cart_id INT NOT NULL,
+CREATE TABLE transaction_details (
+  transaction_id UUID NOT NULL,
   product_id INT NOT NULL,
   quantity INT NOT NULL,
-  total_price DECIMAL(10,2) NOT NULL,
+  subtotal DECIMAL(10,2) NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (cart_id, product_id),
-  FOREIGN KEY (cart_id) REFERENCES carts(id),
+  PRIMARY KEY (transaction_id, product_id),
+  FOREIGN KEY (transaction_id) REFERENCES transactions(id),
   FOREIGN KEY (product_id) REFERENCES products(id)
-);
-
-CREATE TABLE transactions (
-  id SERIAL PRIMARY KEY,
-  cart_id INT NOT NULL,
-  total_payment DECIMAL(10,2) NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (cart_id) REFERENCES carts(id)
 );

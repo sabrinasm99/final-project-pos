@@ -16,3 +16,17 @@ export type MenuProps = {
 export type OrderItemProps = MenuProps & {
   quantity: number;
 };
+
+export type TransactionDetail = {
+  product: MenuProps;
+  quantity: number;
+  subtotal: number;
+};
+
+export type TransactionProps = {
+  id: string;
+  totalAmount: number;
+  totalPay: number;
+  transactionDetails: TransactionDetail[];
+  createdAt: string;
+};
