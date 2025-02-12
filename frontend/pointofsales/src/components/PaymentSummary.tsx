@@ -1,5 +1,7 @@
 "use client";
 
+import { addTransaction } from "@/api/transactions/addTransaction";
+import { useListTransactions } from "@/api/transactions/useListTransactions";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { clear } from "@/store/slices/orderSlice";
 import { currencyFormatter } from "@/utils/formatter";
@@ -11,6 +13,7 @@ import Swal from "sweetalert2";
 
 export default function PaymentSummary() {
   const { dataOrder } = useAppSelector((state) => state.order);
+  const { mutateListTransactions } = useListTransactions();
   const [selectedMethod, setSelectedMethod] = useState("cash");
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalPaid, setTotalPaid] = useState(0);
@@ -42,17 +45,30 @@ export default function PaymentSummary() {
     setTotalPaid(Number(e.target.value));
   };
 
-  const handleCheckout = () => {
-    Swal.fire({
+  const handleCheckout = async () => {
+    if (!dataOrder.length) return;
+    const transactionDetails = dataOrder.map((item) => ({
+      productId: item.id,
+      quantity: item.quantity,
+    }));
+    const data = {
+      totalAmount: totalPrice,
+      totalPay: totalPaid,
+      transactionDetails,
+    };
+    await addTransaction(data);
+    mutateListTransactions();
+
+    const swal = await Swal.fire({
       title: "Success",
       text: "Your order has been successfully completed.",
       icon: "success",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(clear());
-        router.push("/");
-      }
     });
+
+    if (swal.isConfirmed) {
+      dispatch(clear());
+      router.push("/");
+    }
   };
 
   return (
@@ -100,7 +116,7 @@ export default function PaymentSummary() {
           Amount of Paid
         </h3>
         <input
-          type="text"
+          type="number"
           value={totalPaid ? totalPaid : ""}
           onChange={handleChangeTotalPaid}
           placeholder="$0"
