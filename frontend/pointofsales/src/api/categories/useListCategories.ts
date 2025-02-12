@@ -21,6 +21,6 @@ export function useListCategories() {
     categories: data,
     isLoading,
     isError: error,
-    mutateListCategories: mutate
+    mutateListCategories: mutate,
   };
 }

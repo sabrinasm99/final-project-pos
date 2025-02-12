@@ -11,11 +11,10 @@ const getAllProducts = async (url: string) => {
   }
 };
 
-export function useListProducts() {
-  const { data, error, isLoading, mutate } = useSWR(
-    `${baseURL}/products`,
-    getAllProducts
-  );
+export function useListProducts(params: string) {
+  const url = params ? `${baseURL}/products?${params}` : `${baseURL}/products`;
+
+  const { data, error, isLoading, mutate } = useSWR(url, getAllProducts);
 
   return {
     products: data,

@@ -3,16 +3,17 @@ import ClipLoader from "react-spinners/ClipLoader";
 import MenuCard from "./MenuCard";
 import { useListProducts } from "@/api/products/useListProducts";
 import { MenuProps } from "@/types";
+import { useSearchParams } from "next/navigation";
 
 export default function ListMenu() {
-  const { products, isLoading, isError } = useListProducts();
+  const searchParams = useSearchParams();
+
+  const { products, isLoading, isError } = useListProducts(
+    searchParams.toString()
+  );
 
   if (isLoading) {
-    return (
-      <article className="flex justify-center">
-        <ClipLoader size={50} />
-      </article>
-    );
+    return null;
   }
 
   if (isError) {
