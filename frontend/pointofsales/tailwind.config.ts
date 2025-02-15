@@ -10,6 +10,7 @@ export default {
       },
       backgroundColor: {
         backdrop: "rgba(0,0,0,0.3)",
+        outOfStock: "rgba(0,0,0,0.5)",
       },
       spacing: {
         "50%": "50%",

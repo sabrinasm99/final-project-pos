@@ -47,7 +47,11 @@ export default function OrderList() {
                   <FontAwesomeIcon
                     onClick={() => addItemToOrder(order)}
                     icon={faPlus}
-                    className="bg-white rounded-full p-1 cursor-pointer"
+                    className={`${
+                      order.stock === order.quantity
+                        ? "text-gray-400 cursor-default"
+                        : "text-black cursor-pointer"
+                    } bg-white rounded-full p-1`}
                   />
                 </article>
               </article>

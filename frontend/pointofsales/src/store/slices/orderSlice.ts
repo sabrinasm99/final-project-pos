@@ -17,11 +17,12 @@ const orderSlice = createSlice({
   reducers: {
     addItem: (state, action) => {
       const id = action.payload.id;
+      const stock = action.payload.stock;
       const existingItem = state.dataOrder.find((item) => item.id === id);
 
       if (existingItem) {
         state.dataOrder.forEach((item) => {
-          if (item.id === id) {
+          if (item.id === id && item.quantity < stock) {
             item.quantity += 1;
           }
         });
