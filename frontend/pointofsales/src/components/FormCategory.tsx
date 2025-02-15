@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { KeyedMutator } from "swr";
 import * as yup from "yup";
+import Swal from "sweetalert2";
 
 type FormMenuProps = {
   title: string;
@@ -46,6 +47,13 @@ export default function FormCategory({
         await updateCategory(selectedCategory?.id, data);
       }
       mutateListCategories();
+      Swal.fire({
+        title: "Success",
+        icon: "success",
+        text: `The category was successfully ${
+          title === "Add" ? "added" : "updated"
+        }.`,
+      });
     } catch (error) {
       throw error;
     }

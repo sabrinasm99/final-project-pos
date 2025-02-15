@@ -4,7 +4,6 @@ import ModalFormCategory from "@/modals/ModalFormCategory";
 import { CategoryProps } from "@/types";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ToastContainer } from "react-toastify";
 import { useState } from "react";
 import CategoryTable from "./CategoryTable";
 import { useListCategories } from "@/api/categories/useListCategories";
@@ -46,18 +45,6 @@ export default function CategoryContent() {
         isError={isError}
         isLoading={isLoading}
         mutateListCategories={mutateListCategories}
-      />
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
       />
       {showModalCategory && (
         <ModalFormCategory

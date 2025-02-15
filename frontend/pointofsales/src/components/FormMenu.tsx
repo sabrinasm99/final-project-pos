@@ -8,6 +8,7 @@ import { useListCategories } from "@/api/categories/useListCategories";
 import { addProduct } from "@/api/products/addProduct";
 import { updateProduct } from "@/api/products/updateProduct";
 import { KeyedMutator } from "swr";
+import Swal from "sweetalert2";
 
 type FormMenuProps = {
   title: string;
@@ -78,6 +79,13 @@ export default function FormMenu({
         await updateProduct(selectedMenu?.id, data);
       }
       mutateListProducts();
+      Swal.fire({
+        title: "Success",
+        icon: "success",
+        text: `The menu was successfully ${
+          title === "Add" ? "added" : "updated"
+        }.`,
+      });
     } catch (err) {
       throw err;
     }

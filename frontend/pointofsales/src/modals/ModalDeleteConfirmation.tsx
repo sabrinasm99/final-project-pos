@@ -4,6 +4,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { KeyedMutator } from "swr";
+import Swal from "sweetalert2";
 
 type ModalDeleteConfirmationProps = {
   menu: MenuProps | null;
@@ -27,8 +28,19 @@ export default function ModalDeleteConfirmation({
     try {
       await deleteProduct(id);
       mutateListProducts();
-    } catch (error) {
-      throw error;
+      Swal.fire({
+        title: "Success",
+        icon: "success",
+        html: `Menu <b>${menu?.name}</b> was successfully deleted.`,
+      });
+    } catch (error: any) {
+      if (error.error) {
+        Swal.fire({
+          title: "Error",
+          icon: "error",
+          html: `Menu <b>${menu?.name}</b> couldn't be deleted.`,
+        });
+      }
     }
     handleCloseDeleteConfirmation();
   };

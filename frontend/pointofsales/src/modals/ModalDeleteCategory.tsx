@@ -2,9 +2,9 @@ import { deleteCategory } from "@/api/categories/deleteCategory";
 import { CategoryProps } from "@/types";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { toast } from "react-toastify";
 import React from "react";
 import { KeyedMutator } from "swr";
+import Swal from "sweetalert2";
 
 type ModalDeleteCategoryProps = {
   category: CategoryProps | null;
@@ -28,11 +28,19 @@ export default function ModalDeleteCategory({
     try {
       await deleteCategory(id);
       mutateListCategories();
+      Swal.fire({
+        title: "Success",
+        icon: "success",
+        html: `Category <b>${category?.name}</b> was successfully deleted.`,
+      });
     } catch (error: any) {
       if (error.error) {
-        return toast("Category can't be deleted");
+        Swal.fire({
+          title: "Error",
+          icon: "error",
+          html: `Category <b>${category?.name}</b> couldn't be deleted.`,
+        });
       }
-      throw error;
     }
     handleCloseDeleteCategory();
   };
