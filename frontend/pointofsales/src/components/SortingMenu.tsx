@@ -35,7 +35,7 @@ export default function SortingMenu() {
     <select
       value={sortValue}
       onChange={handleChangeSort}
-      className="rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+      className="rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 py-2 xl:py-0"
     >
       <option>Sort by</option>
       <option value="name-asc">Sort by name (A-Z)</option>

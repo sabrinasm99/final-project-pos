@@ -29,15 +29,15 @@ export default function SearchingMenu() {
   }, [debouncedSearchMenu]);
 
   return (
-    <article className="relative grow">
+    <article className="relative lg:grow">
       <input
         type="text"
         value={searchMenu}
         onChange={handleSearchMenu}
         placeholder="Search menu by name"
-        className="w-full ml-2 pr-10 pl-4 py-2 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-red-500"
+        className="w-full pr-10 pl-4 py-2 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-red-500"
       />
-      <article className="absolute top-0 right-0 h-full flex items-center rounded-full">
+      <article className="absolute top-0 right-2 h-full flex items-center rounded-full">
         <article className="bg-gray-100 rounded-full p-2 flex justify-center items-center">
           <FontAwesomeIcon icon={faMagnifyingGlass} className="text-gray-800" />
         </article>

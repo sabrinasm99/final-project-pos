@@ -25,7 +25,7 @@ export default function ListMenu() {
   }
 
   return (
-    <ul className="grid grid-cols-4 gap-3 overflow-y-auto pr-1">
+    <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 overflow-y-auto pr-1">
       {products.map((item: MenuProps) => (
         <MenuCard key={item.id} item={item} />
       ))}
