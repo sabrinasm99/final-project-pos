@@ -66,8 +66,8 @@ export default function TransactionDetailsContent() {
         </ul>
       </article>
 
-      <article className="flex gap-5 items-start">
-        <section className="bg-white rounded-lg shadow-sm w-2/3 p-6">
+      <article className="flex flex-col lg:flex-row gap-5 items-start">
+        <section className="bg-white rounded-lg shadow-sm w-full lg:w-2/3 p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">
             Order Items
           </h2>
@@ -109,7 +109,7 @@ export default function TransactionDetailsContent() {
           </ul>
         </section>
 
-        <section className="bg-white rounded-lg shadow-sm w-1/3 p-6">
+        <section className="bg-white rounded-lg shadow-sm w-full lg:w-1/3 p-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-4">
             Payment Summary
           </h2>
