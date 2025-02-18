@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.pointofsales.dto.ProductQueryParamsDTO;
 import com.pointofsales.dto.ProductRequest;
 import com.pointofsales.model.Category;
 import com.pointofsales.model.Product;
@@ -21,8 +22,13 @@ public class ProductService {
   @Autowired
   private CategoryRepository categoryRepository;
 
-  public List<Product> findAll() {
-    return productRepository.findAllProductsAscSort();
+  public List<Product> findAll(ProductQueryParamsDTO params) {
+    Long category = params.getCategory();
+    String search = params.getSearch();
+    String sortBy = params.getSortBy();
+    String sortType = params.getSortType();
+
+    return productRepository.findAllProducts(category, search, sortBy, sortType);
   }
 
   public Product findById(Long id) {

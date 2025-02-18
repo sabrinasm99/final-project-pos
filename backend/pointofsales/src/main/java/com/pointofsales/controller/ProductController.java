@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.pointofsales.dto.ProductQueryParamsDTO;
 import com.pointofsales.dto.ProductRequest;
 import com.pointofsales.model.Product;
 import com.pointofsales.service.ProductService;
@@ -21,8 +22,15 @@ public class ProductController {
   private ProductService productService;
 
   @GetMapping
-  public List<Product> findAllProducts() {
-    return productService.findAll();
+  public List<Product> findAllProducts(@RequestParam(required = false) String sortBy,
+      @RequestParam(required = false) String sortType, @RequestParam(required = false) Long category,
+      @RequestParam(required = false) String search) {
+    ProductQueryParamsDTO params = new ProductQueryParamsDTO();
+    params.setSortBy(sortBy);
+    params.setSortType(sortType);
+    params.setCategory(category);
+    params.setSearch(search);
+    return productService.findAll(params);
   }
 
   @GetMapping("/{id}")
