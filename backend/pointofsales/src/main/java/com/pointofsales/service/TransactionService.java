@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.pointofsales.dto.TransactionDTO;
 import com.pointofsales.dto.TransactionDTORequest;
@@ -37,7 +36,6 @@ public class TransactionService {
     return transactionRepository.findById(id).orElseThrow(() -> new RuntimeException("Transaction not found"));
   }
 
-  @Transactional
   public Transaction create(TransactionDTORequest transactionRequest) {
     Transaction transaction = new Transaction();
     transaction.setTotalAmount(transactionRequest.getTotalAmount());

@@ -7,10 +7,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.pointofsales.dto.ProductRequest;
 import com.pointofsales.dto.TransactionDTO;
 import com.pointofsales.dto.TransactionDetailDTORequest;
+import com.pointofsales.exception.InvalidTransactionException;
 import com.pointofsales.mapper.TransactionMapper;
 import com.pointofsales.model.Product;
 import com.pointofsales.model.Transaction;
@@ -37,13 +38,19 @@ public class TransactionDetailService {
         .orElseThrow(() -> new RuntimeException("Transaction Detail not found"));
   }
 
-  @Transactional
   public TransactionDTO create(Transaction transaction, List<TransactionDetailDTORequest> orderItemList) {
 
     List<TransactionDetail> transactionDetails = orderItemList.stream().map(
         item -> {
           TransactionDetail detail = new TransactionDetail();
           Product product = productService.findById(item.getProductId());
+          if (item.getQuantity() > product.getStock()) {
+            throw new InvalidTransactionException("Product quantity is greater than product stock.");
+          }
+          product.setStock(product.getStock() - item.getQuantity());
+          ProductRequest productRequest = new ProductRequest(product.getName(), product.getPrice(),
+              product.getCategory().getId(), product.getStock(), product.getImage());
+          productService.update(product.getId(), productRequest);
           detail.setTransaction(transaction);
           detail.setProduct(product);
           detail.setQuantity(item.getQuantity());
