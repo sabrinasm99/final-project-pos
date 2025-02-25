@@ -1,8 +1,9 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function SortingMenu() {
+  const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [sortValue, setSortValue] = useState("");
@@ -18,7 +19,7 @@ export default function SortingMenu() {
       params.delete("sortBy");
       params.delete("sortType");
     }
-    router.push(`/order?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   useEffect(() => {

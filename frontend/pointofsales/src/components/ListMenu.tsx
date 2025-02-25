@@ -1,5 +1,4 @@
 "use client";
-import ClipLoader from "react-spinners/ClipLoader";
 import MenuCard from "./MenuCard";
 import { useListProducts } from "@/api/products/useListProducts";
 import { MenuProps } from "@/types";

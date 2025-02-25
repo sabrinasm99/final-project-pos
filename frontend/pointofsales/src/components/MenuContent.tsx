@@ -7,13 +7,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { MenuProps } from "@/types";
 import { useListProducts } from "@/api/products/useListProducts";
+import { useSearchParams } from "next/navigation";
+import SearchingMenu from "./SearchingMenu";
 
 export default function MenuContent() {
+  const searchParams = useSearchParams();
   const [showModalMenu, setshowModalMenu] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [selectedMenu, setSelectedMenu] = useState<MenuProps | null>(null);
-  const { products, isLoading, isError, mutateListProducts } =
-    useListProducts();
+  const { products, isLoading, isError, mutateListProducts } = useListProducts(
+    searchParams.toString()
+  );
 
   const toggleModalMenu = () => {
     setshowModalMenu(!showModalMenu);
@@ -26,14 +30,17 @@ export default function MenuContent() {
 
   return (
     <>
-      <article className="mx-auto w-4/5 flex my-3">
-        <button
-          onClick={handleOpenModalAddMenu}
-          className="inline-flex items-center ml-auto px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-colors"
-        >
-          <FontAwesomeIcon icon={faPlus} className="h-5 w-5 mr-2" />
-          Add Menu
-        </button>
+      <article className="mx-auto w-4/5 flex mt-3">
+        <article className="flex justify-between w-full">
+          <SearchingMenu />
+          <button
+            onClick={handleOpenModalAddMenu}
+            className="flex items-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white font-medium rounded-lg transition-colors"
+          >
+            <FontAwesomeIcon icon={faPlus} className="h-5 w-5 mr-2" />
+            Add Menu
+          </button>
+        </article>
       </article>
       <MenuTable
         toggleModalMenu={toggleModalMenu}

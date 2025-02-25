@@ -3,10 +3,12 @@
 import useDebounce from "@/hooks/useDebounce";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function SearchingMenu() {
+  const pathname = usePathname();
+  const isOrderPage = pathname === "/order";
   const searchParams = useSearchParams();
   const router = useRouter();
   const [searchMenu, setSearchMenu] = useState(
@@ -25,22 +27,37 @@ export default function SearchingMenu() {
     } else {
       params.delete("search");
     }
-    router.push(`/order?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`);
   }, [debouncedSearchMenu]);
 
   return (
-    <article className="relative lg:grow">
+    <article
+      className={`${isOrderPage ? "lg:grow" : "lg:flex-none w-1/3"} relative`}
+    >
       <input
         type="text"
         value={searchMenu}
         onChange={handleSearchMenu}
         placeholder="Search menu by name"
-        className="w-full pr-10 pl-4 py-2 border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-red-500"
+        className={`${
+          isOrderPage ? "rounded-3xl pr-10 pl-4" : "rounded-lg pl-10 pr-4"
+        } w-full py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500`}
       />
-      <article className="absolute top-0 right-2 h-full flex items-center rounded-full">
-        <article className="bg-gray-100 rounded-full p-2 flex justify-center items-center">
-          <FontAwesomeIcon icon={faMagnifyingGlass} className="text-gray-800" />
-        </article>
+      <article
+        className={`${
+          isOrderPage ? "right-2 rounded-full" : "w-10 justify-center"
+        } absolute top-0 h-full flex items-center`}
+      >
+        {isOrderPage ? (
+          <article className="bg-gray-100 rounded-full p-2 flex justify-center items-center">
+            <FontAwesomeIcon
+              icon={faMagnifyingGlass}
+              className="text-gray-800"
+            />
+          </article>
+        ) : (
+          <FontAwesomeIcon icon={faMagnifyingGlass} className="text-gray-400" />
+        )}
       </article>
     </article>
   );
