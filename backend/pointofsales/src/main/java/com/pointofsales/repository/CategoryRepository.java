@@ -15,9 +15,10 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
       "c.createdAt as createdAt, c.updatedAt as updatedAt " +
       "FROM Category c " +
       "LEFT JOIN Product p ON c.id = p.category.id " +
+      "WHERE (:searchCategory IS NULL OR c.name ILIKE %:searchCategory%)" +
       "GROUP BY c.id, c.name, c.createdAt, c.updatedAt " +
       "ORDER BY c.id")
-  List<CategoryResponse> findAllCategoriesWithTotalRelatedProducts();
+  List<CategoryResponse> findAllCategoriesWithTotalRelatedProducts(@Param("searchCategory") String searchCategory);
 
   @Query("SELECT c.id as id, c.name as name, COUNT(p) as totalRelatedProducts, " +
       "c.createdAt as createdAt, c.updatedAt as updatedAt " +

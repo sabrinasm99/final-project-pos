@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.pointofsales.dto.CategoryQueryParamsDTO;
 import com.pointofsales.dto.CategoryResponse;
 import com.pointofsales.model.Category;
 import com.pointofsales.repository.CategoryRepository;
@@ -16,8 +17,8 @@ public class CategoryService {
   @Autowired
   private CategoryRepository categoryRepository;
 
-  public List<CategoryResponse> findAll() {
-    return categoryRepository.findAllCategoriesWithTotalRelatedProducts();
+  public List<CategoryResponse> findAll(CategoryQueryParamsDTO params) {
+    return categoryRepository.findAllCategoriesWithTotalRelatedProducts(params.getSearchCategory());
   }
 
   public Category findById(Long id) {

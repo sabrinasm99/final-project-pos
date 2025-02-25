@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import com.pointofsales.dto.CategoryQueryParamsDTO;
 import com.pointofsales.dto.CategoryResponse;
 import com.pointofsales.model.Category;
 import com.pointofsales.service.CategoryService;
@@ -20,8 +21,10 @@ public class CategoryController {
   private CategoryService categoryService;
 
   @GetMapping
-  public List<CategoryResponse> findAllCategories() {
-    return categoryService.findAll();
+  public List<CategoryResponse> findAllCategories(@RequestParam(required = false) String searchCategory) {
+    CategoryQueryParamsDTO params = new CategoryQueryParamsDTO();
+    params.setSearchCategory(searchCategory);
+    return categoryService.findAll(params);
   }
 
   @GetMapping("/{id}")
