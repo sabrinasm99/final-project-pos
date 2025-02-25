@@ -11,11 +11,12 @@ const getAllCategories = async (url: string) => {
   }
 };
 
-export function useListCategories() {
-  const { data, error, isLoading, mutate } = useSWR(
-    `${baseURL}/categories`,
-    getAllCategories
-  );
+export function useListCategories(searchCategory = "") {
+  const url = searchCategory
+    ? `${baseURL}/categories?${searchCategory}`
+    : `${baseURL}/categories`;
+
+  const { data, error, isLoading, mutate } = useSWR(url, getAllCategories);
 
   return {
     categories: data,
