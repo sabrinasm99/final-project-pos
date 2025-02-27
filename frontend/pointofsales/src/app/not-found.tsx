@@ -21,7 +21,8 @@ export default function NotFound() {
             Oops! Page Not Found
           </h2>
           <p className="text-gray-600">
-            Sorry, the page you are looking for doesn't exist or has been moved.
+            Sorry, the page you are looking for doesn&apost exist or has been
+            moved.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-6">
             <button

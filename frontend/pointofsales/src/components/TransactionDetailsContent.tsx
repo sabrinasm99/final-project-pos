@@ -1,7 +1,6 @@
 "use client";
 
 import { useTransaction } from "@/api/transactions/useTransaction";
-import { transactionList } from "@/data/TransactionList";
 import { TransactionDetail } from "@/types";
 import {
   currencyFormatter,

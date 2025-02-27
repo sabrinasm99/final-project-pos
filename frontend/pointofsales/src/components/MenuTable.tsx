@@ -1,7 +1,5 @@
 "use client";
 
-import { useListProducts } from "@/api/products/useListProducts";
-import { menuList } from "@/data/MenuList";
 import ModalDeleteConfirmation from "@/modals/ModalDeleteConfirmation";
 import { MenuProps } from "@/types";
 import { currencyFormatter } from "@/utils/formatter";
